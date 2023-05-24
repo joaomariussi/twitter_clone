@@ -1,0 +1,19 @@
+{
+  "name": "miniframework/vendor",
+  "require": {
+    "php": ">= 7.0",
+    "ext-pdo": "*"
+  },
+  "authors": [
+    {
+      "name": "João Pedro Mariussi",
+      "email": "joaomariussi10@gmail.com"
+    }
+  ],
+  "autoload": {
+      "psr-4": {
+        "App\\": "App/",
+        "MF\\": "vendor/MF/"
+      }
+  }
+}
