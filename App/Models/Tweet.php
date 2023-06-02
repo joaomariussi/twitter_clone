@@ -31,4 +31,23 @@ class Tweet extends Model {
         return $this;
     }
 
+    //recupera os registro de tweets dos usuários.
+    public function getAll() {
+
+        $query = "select
+                    t.id, t.id_usuario, u.nome, t.tweet, date_format(t.data, '%d/%m/%Y %H:%i') as data
+                from tweets as t
+                    left join usuarios as u on (t.id_usuario = u.id)
+                where 
+                    t.id_usuario = :id_usuario
+                order by 
+                    t.data desc";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_usuario', $this->__get('id_usuario'));
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
 }
