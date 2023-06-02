@@ -1,4 +1,4 @@
-<div class="container-fluid h-100">
+    <div class="container-fluid h-100">
 	<div class="row h-100">
     
     <div class="col-md-6 banner">
@@ -18,10 +18,11 @@
 				</div>
 			</div>
 		</div>
+
     </div>
 
     <div class="col-md-6 pt-4 pl-5 pr-5">
-		<form method="post" action="/autenticar">
+        <form method="post" action="/autenticar">
 			<div class="row">
 				<div class="col">
 					<input type="text" name="email" class="form-control" placeholder="E-mail">
@@ -33,6 +34,14 @@
 					<button type="submit" class="btn btn-primary mb-2">Entrar</button>
 				</div>
 			</div>
+
+            <?php if ($this->view->login == 'erro') { ?>
+                <div class="row">
+                    <div class="col">
+                        <span class="text text-danger"> E-mail ou senha inválido(s)!</span>
+                    </div>
+                </div>
+            <?php } ?>
 		</form>
 
 		<div class="row pt-5 pl-5 pr-5">
@@ -44,9 +53,6 @@
 				<a href="/inscreverse" class="btn btn-primary btn-block mb-2">Inscrever-se</a>
 			</div>	
 		</div>
-
-
     </div>
-
   </div>
 </div>
