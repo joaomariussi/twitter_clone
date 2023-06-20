@@ -12,6 +12,7 @@ class IndexController extends  Action
     public function index()
     {
 
+        $this->view->login = isset($_GET['login']) ? $_GET['login'] : '';
         $this->render('index');
     }
 
@@ -30,17 +31,17 @@ class IndexController extends  Action
 
     public function registrar() {
 
-        $usuario = Container::get_Model('Usuario');
+        $usuario = Container::getModel('Usuario');
 
         $nome = $_POST['nome'] ?? '';
         $email = $_POST['email'] ?? '';
-        $senha = $_POST['senha'] ?? '';
+        $senha = md5($_POST['senha']) ?? '';
 
         $usuario->__set('nome', $nome);
         $usuario->__set('email', $email );
         $usuario->__set('senha', $senha);
 
-        if ($usuario->validarCadastro() && count($usuario->recuperarUsuarioPorEmail()) == 0) {
+        if ($usuario->validarCadastro() && count($usuario->getUsuarioPorEmail()) == 0) {
 
                 $usuario->salvar();
 

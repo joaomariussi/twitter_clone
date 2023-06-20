@@ -73,7 +73,13 @@ class Usuario extends Model {
 
         $usuario = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        return $usuario;
+        if(!empty($usuario['id']) && !empty($usuario['nome'])) {
+            $this->__set('id', $usuario['id']);
+            $this->__set('nome', $usuario['nome']);
+        }
+
+        return $this;
+
     }
 
 
