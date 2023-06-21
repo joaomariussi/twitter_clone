@@ -44,6 +44,36 @@ class AppController extends Action {
         if (!isset($_SESSION['id']) || $_SESSION['id'] == '' || !isset($_SESSION['nome']) || $_SESSION['nome'] == '') {
             header('Location: /?login=erro');
         }
-
     }
+
+    public function quemSeguir() {
+
+        $this->validaAutenticacao();
+
+        $pesquisaPor = isset($_GET['pesquisaPor']) ? $_GET['pesquisaPor'] : '';
+
+        $usuarios = array();
+
+        if ($pesquisaPor != '') {
+
+            $usuario = Container::getModel('Usuario');
+            $usuario->__set('nome', $pesquisaPor);
+            $usuarios = $usuario->getAll();
+        }
+
+        $this->view->usuarios = $usuarios;
+
+        $this->render('quemSeguir');
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
