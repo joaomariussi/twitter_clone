@@ -85,8 +85,17 @@
 
 								<div class="col-md-6 d-flex justify-content-end">
 									<div>
-										<a href="/acao?acao=seguir&id_usuario=<?=$usuario['id'] ?>" class="btn btn-success">Seguir</a>
-										<a href="/acao?acao=deixar_de_seguir&id_usuario=<?=$usuario['id'] ?>" class="btn btn-danger">Deixar de seguir</a>
+                                        <?php
+                                        if ($usuario['seguir_sn'] == 0) { // Se não estiver seguindo, exibe apenas o botão "Seguir"
+                                            ?>
+                                            <a href="/acao?acao=seguir&id_usuario=<?=$usuario['id'] ?>" class="btn btn-success seguir-btn">Seguir</a>
+                                        <?php } ?>
+
+                                        <?php
+                                        if ($usuario['seguir_sn'] == 1) { // Se estiver seguindo, exibe apenas o botão "Deixar de Seguir"
+                                            ?>
+                                            <a href="/acao?acao=deixar_de_seguir&id_usuario=<?=$usuario['id'] ?>" class="btn btn-danger deixar-seguir-btn">Deixar de seguir</a>
+                                        <?php } ?>
 									</div>
 								</div>
 							</div>
@@ -98,3 +107,41 @@
         </div>
 	</div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Lidar com o clique no botão "Seguir"
+        $(document).on('click', '.seguir-btn', function(e) {
+            e.preventDefault(); // Impedir o comportamento padrão do link
+
+            var url = $(this).attr('href');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    // Atualizar apenas o botão atual
+                    $(e.target).replaceWith('<a href="' + url.replace('seguir', 'deixar_de_seguir') + '" class="btn btn-danger deixar-seguir-btn">Deixar de seguir</a>');
+                }
+            });
+        });
+
+        // Lidar com o clique no botão "Deixar de Seguir"
+        $(document).on('click', '.deixar-seguir-btn', function(e) {
+            e.preventDefault(); // Impedir o comportamento padrão do link
+
+            var url = $(this).attr('href');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    // Atualizar apenas o botão atual
+                    $(e.target).replaceWith('<a href="' + url.replace('deixar_de_seguir', 'seguir') + '" class="btn btn-success seguir-btn">Seguir</a>');
+                }
+            });
+        });
+    });
+</script>
