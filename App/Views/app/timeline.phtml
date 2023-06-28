@@ -27,7 +27,10 @@
 					
 					<div class="row mt-2 mb-2">
 						<div class="col mb-2">
-							<span class="perfilPainelNome">Nome do Usuário</span>
+							<span class="perfilPainelNome">
+                                <?php echo $this->view->info_usuario['nome'];
+                                ?>
+                            </span>
 						</div>
 					</div>
 
@@ -35,17 +38,26 @@
 
 						<div class="col">
 							<span class="perfilPainelItem">Tweets</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor">
+                                <?= $this->view->total_tweets['total_tweets'];
+                                ?>
+                            </span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguindo</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor">
+                                <?= $this->view->total_seguindo['total_seguindo']
+                                ?>
+                            </span>
 						</div>
 
 						<div class="col">
 							<span class="perfilPainelItem">Seguidores</span><br />
-							<span class="perfilPainelItemValor">0</span>
+							<span class="perfilPainelItemValor">
+                                <?= $this->view->total_seguidores['total_seguidores']
+                                ?>
+                            </span>
 						</div>
 
 					</div>
@@ -62,7 +74,7 @@
 						<textarea class="form-control" name="tweet" id="exampleFormControlTextarea1" rows="3"></textarea>
 						
 						<div class="col mt-2 d-flex justify-content-end">
-							<button type="submit" class="btn btn-primary">Tweet</button>
+							<button type="submit" class="btn btn-primary">Tweetar</button>
 						</div>
 					</form>
 				</div>
@@ -74,11 +86,14 @@
                         <p><strong><?=$tweet['nome']?></strong> <small><span class="text text-muted"><?=$tweet['data']?></span></small></p>
                         <p><?=$tweet['tweet']?></p>
                         <br />
-                        <form>
-                            <div class="col d-flex justify-content-end">
-                                <button type="submit" class="btn btn-danger"><small>Remover</small></button>
-                            </div>
-                        </form>
+                        <?php if ($tweet['id_usuario'] == $_SESSION['id']) { ?>
+                            <form method="post" action="/tweet">
+                                <input type="hidden" name="id_tweet" value="<?=$tweet['id']?> ">
+                                <div class="col d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-danger"><small>Remover</small></button>
+                                </div>
+                            </form>
+                        <?php } ?>
                     </div>
                 </div>
             <?php } ?>
