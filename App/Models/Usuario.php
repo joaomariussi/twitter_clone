@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use MF\Model\Model;
-use function Symfony\Component\String\s;
 
 class Usuario extends Model {
 
@@ -135,26 +134,48 @@ class Usuario extends Model {
         return true;
     }
 
+    //Busca o nome do usuário dentro do banco de dados.
+    public function getInfoUsuario() {
 
+        $query = "Select nome from usuarios where id = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_usuario', $this->__get('id'));
+        $stmt->execute();
 
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
 
+    //Faz a busca e conta, todos os tweets feito pelo usuário.
+    public function getTotalTweets() {
 
+        $query = "Select count(*) as total_tweets from tweets where id_usuario = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_usuario', $this->__get('id'));
+        $stmt->execute();
 
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
 
+    //Faz a busca e conta, todos os usuários seguindo pelo usuário da sessão.
+    public function getUsariosSeguindo() {
 
+        $query = "Select count(*) as total_seguindo  from usuarios_seguidores where id_usuario = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_usuario', $this->__get('id'));
+        $stmt->execute();
 
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
 
+    //Faz a busca e conta, todos os seguidores que seguem o usuário da sessão.
+    public function getTotalSeguidores() {
 
+        $query = "Select count(*) as total_seguidores  from usuarios_seguidores where id_usuario_seguindo = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id_usuario', $this->__get('id'));
+        $stmt->execute();
 
-
-
-
-
-
-
-
-
-
-
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
 
 }
