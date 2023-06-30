@@ -28,6 +28,14 @@
                 <input type="text" value="<?= $this->view->usuario['email'] ?>" name="email" class="form-control" placeholder="E-mail">
               </div>
 
+                <div class="form-group">
+                    <input type="date" value="<?= $this->view->usuario['data_nasc'] ?>" name="data_nasc" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" value="<?= $this->view->usuario['localizacao'] ?>" name="localizacao" class="form-control" placeholder="Localização">
+                </div>
+
               <div class="form-group">
                 <input type="password" value="<?= $this->view->usuario['senha'] ?>" name="senha" class="form-control" placeholder="Senha">
               </div>
@@ -39,7 +47,8 @@
               </div>
               <button type="submit" class="btn btn-primary btn-block">Inscrever-se</button>
 
-                <?php if ($this->view->erroCadastro) { ?>
+                <?php if ($this->view->erroCadastro)
+                { ?>
 
                     <small class="form-text text-danger">Erro ao tentar realizar o cadastro, verifique se os campos
                     foram preenchidos corretamente!</small>
