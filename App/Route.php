@@ -68,6 +68,12 @@ class Route extends Bootstrap {
             'action' => 'remover'
         );
 
+        $routes['minha_conta'] = array(
+            'route' => '/minha_conta',
+            'controller' => 'AppController',
+            'action' => 'minhaConta'
+        );
+
         $this->setRoutes($routes);
     }
 }
