@@ -150,7 +150,8 @@ h2 {
     padding:25px;
 }
 
-.quemSeguir {
+.quemSeguir,
+.minhaConta {
     border: 1px solid #e6ecf0;
     background: #fff;
     position: relative;

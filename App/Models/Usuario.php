@@ -9,6 +9,8 @@ class Usuario extends Model {
     private $id;
     private $nome;
     private $email;
+    private $data_nasc;
+    private $localizacao;
     private $senha;
 
     public  function __get($atributo) {
@@ -20,20 +22,25 @@ class Usuario extends Model {
     }
 
     //função responsável por salvar o usuário no banco de dados.
-    public function salvar() {
+    public function salvar(): static
+    {
 
-        $query = "insert into usuarios(nome, email, senha) values (:nome, :email, :senha)";
+        $data_nasc = date('Y-m-d', strtotime($this->__get('data_nasc')));
+
+        $query = "insert into usuarios(nome, email, data_nasc, localizacao, senha) values (:nome, :email, :data_nasc, :localizacao, :senha)";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':nome', $this->__get('nome'));
         $stmt->bindValue(':email', $this->__get('email'));
+        $stmt->bindValue(':data_nasc', $data_nasc);
+        $stmt->bindValue(':localizacao', $this->__get('localizacao'));
         $stmt->bindValue(':senha', $this->__get('senha'));
         $stmt->execute();
-
         return $this;
     }
 
     //função responsável por validar o cadastro do usuário.
-    public function validarCadastro() {
+    public function validarCadastro(): bool
+    {
 
         $valido = true;
 
@@ -45,6 +52,15 @@ class Usuario extends Model {
             $valido = false;
         }
 
+        $dataNasc = $this->__get('data_nasc');
+        if (strlen($dataNasc) == 0 || !strtotime($dataNasc)) {
+            $valido = false;
+        }
+
+        if (strlen($this->__get('localizacao')) < 3) {
+            $valido = false;
+        }
+
         if (strlen($this->__get('senha')) < 3) {
             $valido = false;
         }
@@ -53,7 +69,8 @@ class Usuario extends Model {
     }
 
     //recuperar um usuário por email
-    public function getUsuarioPorEmail() {
+    public function getUsuarioPorEmail(): false|array
+    {
 
         $query = "select nome, email from usuarios where email = :email";
         $stmt = $this->db->prepare($query);
@@ -65,9 +82,13 @@ class Usuario extends Model {
 
     public function autenticar() {
 
-        $query = "select id, nome, email from usuarios where email = :email and senha = :senha";
+        $data_nasc = date('Y-m-d', strtotime($this->__get('data_nasc')));
+
+        $query = "select id, nome, email, data_nasc, localizacao from usuarios where email = :email and data_nasc = :data_nasc and localizacao = :localizacao and senha = :senha";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':email', $this->__get('email'));
+        $stmt->bindValue(':data_nasc', $data_nasc);
+        $stmt->bindValue(':localizacao', $this->__get('localizacao'));
         $stmt->bindValue(':senha', $this->__get('senha'));
         $stmt->execute();
 
@@ -89,6 +110,8 @@ class Usuario extends Model {
                 u.id, 
                 u.nome, 
                 u.email,
+                u.data_nasc,
+                u.localizacao,
                 (
                     select 
                         count(*)
