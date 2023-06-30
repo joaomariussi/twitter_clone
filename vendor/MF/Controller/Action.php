@@ -22,7 +22,8 @@ abstract class Action {
 
     }
 
-    protected function content() {
+    protected function content(): void
+    {
 
         $classAtual = get_class($this);
 

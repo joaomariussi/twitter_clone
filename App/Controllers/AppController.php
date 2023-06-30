@@ -147,4 +147,30 @@ class AppController extends Action {
         header('Location: /quem_seguir');
     }
 
+    public function minhaConta() {
+
+        $this->validaAutenticacao();
+
+        $usuario = Container::getModel('Usuario');
+        $usuario->__set('id', $_SESSION['id']); //Seta se o id do usuário é o mesmo da sessão.
+
+        /**
+         * @var $usuario Usuario
+         */
+        //Seta a view e chama o getInfoUsuario da minha classe Usuario.
+        $this->view->info_usuario = $usuario->getInfoUsuario();
+
+        //Seta a view e chama o getTotalTweets da minha classe Usuario.
+        $this->view->total_tweets = $usuario->getTotalTweets();
+
+        //Seta a view e chama o getUsariosSeguindo da minha classe Usuario.
+        $this->view->total_seguindo = $usuario->getUsariosSeguindo();
+
+        //Seta a view e chama o getTotalSeguidores da minha classe Usuario.
+        $this->view->total_seguidores = $usuario->getTotalSeguidores();
+
+
+        $this->render('minhaConta');
+    }
+
 }
