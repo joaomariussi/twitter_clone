@@ -34,16 +34,19 @@ class IndexController extends  Action
 
     public function registrar() {
 
+        // Cria uma instância do modelo Usuario
         $usuario = Container::getModel('Usuario');
 
+        // Obtém os valores dos campos do formulário
         $nome = $_POST['nome'] ?? '';
         $email = $_POST['email'] ?? '';
         $data_nasc = $_POST['data_nasc'] ?? '';
         $localizacao = $_POST['localizacao'] ?? '';
         $senha = md5($_POST['senha']) ?? '';
 
+        // Define os valores nos atributos do objeto Usuario
         $usuario->__set('nome', $nome);
-        $usuario->__set('email', $email );
+        $usuario->__set('email', $email);
         $usuario->__set('data_nasc', $data_nasc);
         $usuario->__set('localizacao', $localizacao);
         $usuario->__set('senha', $senha);
@@ -52,14 +55,19 @@ class IndexController extends  Action
          * @var $usuario Usuario
          */
 
+        // Valida o cadastro do usuário e verifica se já existe um usuário com o mesmo email
         if ($usuario->validarCadastro() && count($usuario->getUsuarioPorEmail()) == 0) {
 
-                $usuario->salvar();
+            // Salva o usuário no banco de dados
+            $usuario->salvar();
 
-                $this->render('cadastro');
+            // Renderiza a página de cadastro bem-sucedido
+            $this->render('cadastro');
 
         } else {
 
+            // Caso haja erros de validação ou um usuário com o mesmo email já exista,
+            // define os valores no objeto de visualização para exibição no formulário
             $this->view->usuario = array(
                 'nome' => $nome,
                 'email' => $email,
@@ -70,6 +78,7 @@ class IndexController extends  Action
 
             $this->view->erroCadastro = true;
 
+            // Renderiza a página de inscrição novamente, exibindo mensagens de erro
             $this->render('inscreverse');
         }
     }

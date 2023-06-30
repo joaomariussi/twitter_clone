@@ -68,7 +68,7 @@ class Usuario extends Model {
         return $valido;
     }
 
-    //recuperar um usuário por email
+    //recuperar um usuário por email e faz as validações
     public function getUsuarioPorEmail(): false|array
     {
 
@@ -80,15 +80,13 @@ class Usuario extends Model {
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function autenticar() {
+    //Verifica os dados do usuário ao tentar logar.
+    public function autenticar(): static
+    {
 
-        $data_nasc = date('Y-m-d', strtotime($this->__get('data_nasc')));
-
-        $query = "select id, nome, email, data_nasc, localizacao from usuarios where email = :email and data_nasc = :data_nasc and localizacao = :localizacao and senha = :senha";
+        $query = "select id, nome, email from usuarios where email = :email  and senha = :senha";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':email', $this->__get('email'));
-        $stmt->bindValue(':data_nasc', $data_nasc);
-        $stmt->bindValue(':localizacao', $this->__get('localizacao'));
         $stmt->bindValue(':senha', $this->__get('senha'));
         $stmt->execute();
 
@@ -97,6 +95,7 @@ class Usuario extends Model {
         if(!empty($usuario['id']) && !empty($usuario['nome'])) {
             $this->__set('id', $usuario['id']);
             $this->__set('nome', $usuario['nome']);
+
         }
 
         return $this;
