@@ -123,6 +123,12 @@ h2 {
     line-height: 25px;
 }
 
+.perfilPainelDataNasc {
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 25px;
+}
+
 .perfilPainelItem  {
     color: #657786;
     font-size: 12px;

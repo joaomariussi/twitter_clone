@@ -200,4 +200,13 @@ class Usuario extends Model {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
+    public function getDataNasc() {
+        $query = "Select data_nasc as data_nasc from usuarios where data_nasc = :data_nasc";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':data_nasc', $this->__get('id'));
+        $stmt->execute();
+
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
 }
