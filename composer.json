@@ -15,5 +15,10 @@
         "App\\": "App/",
         "MF\\": "vendor/MF/"
       }
+  },
+  "require": {
+    "php": ">= 7.0",
+    "ext-pdo": "*",
+    "nesbot/carbon": "^2.50"
   }
 }
