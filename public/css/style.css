@@ -125,7 +125,7 @@ h2 {
 
 .perfilPainelDataNasc {
     font-weight: bold;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 25px;
 }
 
@@ -190,4 +190,8 @@ h2 {
 
 .tweet:hover {
     background-color: #f5f8fa;
+}
+
+.location-icon {
+    color: #000000;
 }

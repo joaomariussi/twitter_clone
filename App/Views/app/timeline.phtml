@@ -28,13 +28,15 @@
                     <div class="row mt-2 mb-2">
                         <div class="col mb-2">
 							<span class="perfilPainelNome">
-                                <?= $this->view->info_usuario['nome'];
+                                <?= $this->view->info_usuario['nome']
                                 ?>
                             </span>
                             <span class="perfilPainelDataNasc">
-                                <br/>
-                                <br/>
-                                Data de Nascimento
+                                <br>
+                                Nascido(a) em: <?= $this->view->dataNascFormatada ?>
+                                <br>
+
+                                <span class="location-icon"><i class="fas fa-map-marker-alt"></i></span>
                             </span>
                         </div>
                     </div>
