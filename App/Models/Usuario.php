@@ -4,6 +4,7 @@ namespace App\Models;
 
 use MF\Model\Model;
 
+use Carbon\Carbon;
 class Usuario extends Model {
 
     private $id;
@@ -200,13 +201,17 @@ class Usuario extends Model {
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function getDataNasc() {
-        $query = "Select data_nasc as data_nasc from usuarios where data_nasc = :data_nasc";
+    public function getDataNasc(): string
+    {
+        $query = "Select data_nasc from usuarios where id = :id";
         $stmt = $this->db->prepare($query);
-        $stmt->bindValue(':data_nasc', $this->__get('id'));
+        $stmt->bindValue(':id', $this->__get('id'));
         $stmt->execute();
 
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
+        $dataNasc = $stmt->fetch(\PDO::FETCH_ASSOC)['data_nasc'];
+
+        //retorna a data já formatada em nome do mês, exemplo: 03 de julho de 2001.
+        return Carbon::parse($dataNasc)->locale('pt_BR')->isoFormat('D [de] MMMM [de] YYYY');
     }
 
 }

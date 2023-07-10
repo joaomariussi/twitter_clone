@@ -52,6 +52,9 @@ class AppController extends Action {
         //Seta a view e chama o getTotalSeguidores da minha classe Usuario.
         $this->view->total_seguidores = $usuario->getTotalSeguidores();
 
+        $dataNascFormatada = $usuario->getDataNasc();
+
+        $this->view->dataNascFormatada = $dataNascFormatada;
 
         //rendeniza a view timeline.
         $this->render('timeline');
@@ -168,8 +171,6 @@ class AppController extends Action {
 
         //Seta a view e chama o getTotalSeguidores da minha classe Usuario.
         $this->view->total_seguidores = $usuario->getTotalSeguidores();
-
-        $this->view->data_nasc = $usuario->getDataNasc();
 
 
         $this->render('minhaConta');
