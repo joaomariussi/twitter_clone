@@ -22,9 +22,11 @@ class IndexController extends  Action
         $this->view->usuario = array(
             'nome' => '',
             'email' => '',
+            'senha' => '',
+            'nome_usuario' => '',
             'data_nasc' => '',
             'localizacao' => '',
-            'senha' => '',
+
         );
 
         $this->view->erroCadastro = false;
@@ -40,23 +42,25 @@ class IndexController extends  Action
         // Obtém os valores dos campos do formulário
         $nome = $_POST['nome'] ?? '';
         $email = $_POST['email'] ?? '';
+        $senha = md5($_POST['senha']) ?? '';
+        $nome_usuario = ($_POST['nome_usuario']) ?? '';
         $data_nasc = $_POST['data_nasc'] ?? '';
         $localizacao = $_POST['localizacao'] ?? '';
-        $senha = md5($_POST['senha']) ?? '';
 
         // Define os valores nos atributos do objeto Usuario
         $usuario->__set('nome', $nome);
         $usuario->__set('email', $email);
+        $usuario->__set('senha', $senha);
+        $usuario->__set('nome_usuario', $nome_usuario);
         $usuario->__set('data_nasc', $data_nasc);
         $usuario->__set('localizacao', $localizacao);
-        $usuario->__set('senha', $senha);
 
         /**
          * @var $usuario Usuario
          */
 
-        // Valida o cadastro do usuário e verifica se já existe um usuário com o mesmo email
-        if ($usuario->validarCadastro() && count($usuario->getUsuarioPorEmail()) == 0) {
+        // Valida o cadastro do usuário, verifica se já existe um usuário com o mesmo email e também verifica se já existe o nome_usuario igual do que está sendo inserido.
+        if ($usuario->validarCadastro() && count($usuario->getUsuarioPorEmail()) == 0 && count($usuario->getNomeUsuario()) == 0) {
 
             // Salva o usuário no banco de dados
             $usuario->salvar();
@@ -71,9 +75,11 @@ class IndexController extends  Action
             $this->view->usuario = array(
                 'nome' => $nome,
                 'email' => $email,
+                'senha' => $senha,
+                'nome_usuario' => $nome_usuario,
                 'data_nasc' => $data_nasc,
                 'localizacao' => $localizacao,
-                'senha' => $senha
+
             );
 
             $this->view->erroCadastro = true;

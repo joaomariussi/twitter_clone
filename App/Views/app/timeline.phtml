@@ -28,15 +28,17 @@
                     <div class="row mt-2 mb-2">
                         <div class="col mb-2">
 							<span class="perfilPainelNome">
-                                <?= $this->view->info_usuario['nome']
-                                ?>
+                                <?= $this->view->info_usuario['nome'] ?>
                             </span>
+
                             <span class="perfilPainelDataNasc">
                                 <br>
                                 Nascido(a) em: <?= $this->view->dataNascFormatada ?>
                                 <br>
 
-                                <span class="location-icon"><i class="fas fa-map-marker-alt"></i></span>
+                                <span class="location-icon"><i class="fas fa-map-marker-alt"></i>
+                                <?= $this->view->localidade['localidade'] ?>
+                                </span>
                             </span>
                         </div>
                     </div>
@@ -78,7 +80,7 @@
             <div class="row mb-2">
                 <div class="col tweetBox">
                     <form method="post" action="tweet">
-                        <textarea class="form-control" name="tweet" id="exampleFormControlTextarea1"
+                        <textarea class="form-control" name="tweet" id="exampleFormControlTextarea1" placeholder="O que está acontecendo?"
                                   rows="3"></textarea>
 
                         <div class="col mt-2 d-flex justify-content-end">

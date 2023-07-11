@@ -40,6 +40,7 @@ class AuthController extends Action {
             header('Location: /timeline');
 
         } else {
+
             // Caso a autenticação falhe, redireciona para a página inicial com uma mensagem de erro
             header('Location: /?login=erro');
         }
@@ -52,6 +53,4 @@ class AuthController extends Action {
 
         header('Location: /');
     }
-
-
 }

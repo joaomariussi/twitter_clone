@@ -10,9 +10,10 @@ class Usuario extends Model {
     private $id;
     private $nome;
     private $email;
+    private $senha;
+    private $nome_usuario;
     private $data_nasc;
     private $localizacao;
-    private $senha;
 
     public  function __get($atributo) {
         return $this->$atributo;
@@ -28,13 +29,15 @@ class Usuario extends Model {
 
         $data_nasc = date('Y-m-d', strtotime($this->__get('data_nasc')));
 
-        $query = "insert into usuarios(nome, email, data_nasc, localizacao, senha) values (:nome, :email, :data_nasc, :localizacao, :senha)";
+        $query = "insert into usuarios(nome, email, senha, nome_usuario, data_nasc, localizacao) values (:nome, :email, :senha, :nome_usuario, :data_nasc, :localizacao)";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':nome', $this->__get('nome'));
         $stmt->bindValue(':email', $this->__get('email'));
+        $stmt->bindValue(':senha', $this->__get('senha'));
+        $stmt->bindValue(':nome_usuario', $this->__get('nome_usuario'));
         $stmt->bindValue(':data_nasc', $data_nasc);
         $stmt->bindValue(':localizacao', $this->__get('localizacao'));
-        $stmt->bindValue(':senha', $this->__get('senha'));
+
         $stmt->execute();
         return $this;
     }
@@ -53,16 +56,20 @@ class Usuario extends Model {
             $valido = false;
         }
 
+        if (strlen($this->__get('senha')) < 3) {
+            $valido = false;
+        }
+
+        if (strlen($this->__get('nome_usuario')) <3) {
+            $valido = false;
+        }
+
         $dataNasc = $this->__get('data_nasc');
         if (strlen($dataNasc) == 0 || !strtotime($dataNasc)) {
             $valido = false;
         }
 
         if (strlen($this->__get('localizacao')) < 3) {
-            $valido = false;
-        }
-
-        if (strlen($this->__get('senha')) < 3) {
             $valido = false;
         }
 
@@ -76,6 +83,16 @@ class Usuario extends Model {
         $query = "select nome, email from usuarios where email = :email";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':email', $this->__get('email'));
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getNomeUsuario() {
+
+        $query = "Select nome, nome_usuario from usuarios where nome_usuario = :nome_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':nome_usuario', $this->__get('nome_usuario'));
         $stmt->execute();
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -110,6 +127,7 @@ class Usuario extends Model {
                 u.id, 
                 u.nome, 
                 u.email,
+                u.nome_usuario,
                 u.data_nasc,
                 u.localizacao,
                 (
@@ -212,6 +230,16 @@ class Usuario extends Model {
 
         //retorna a data já formatada em nome do mês, exemplo: 03 de julho de 2001.
         return Carbon::parse($dataNasc)->locale('pt_BR')->isoFormat('D [de] MMMM [de] YYYY');
+    }
+
+    public function getLocalizacao() {
+
+        $query = "Select localizacao as localidade from usuarios where id = :id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':id', $this->__get('id'));
+        $stmt->execute();
+
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
 
 }

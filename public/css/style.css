@@ -123,6 +123,12 @@ h2 {
     line-height: 25px;
 }
 
+.perfilPainelNomeUsuario {
+    color: #4d585e;
+    font-size: 13px;
+    line-height: 25px;
+}
+
 .perfilPainelDataNasc {
     font-weight: bold;
     font-size: 12px;
@@ -193,5 +199,5 @@ h2 {
 }
 
 .location-icon {
-    color: #000000;
+    color: #1DA1F2;
 }
