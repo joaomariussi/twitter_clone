@@ -52,9 +52,13 @@ class AppController extends Action {
         //Seta a view e chama o getTotalSeguidores da minha classe Usuario.
         $this->view->total_seguidores = $usuario->getTotalSeguidores();
 
+        //Seta a variável e chama o getDataNasc da minha classe Usuario.
         $dataNascFormatada = $usuario->getDataNasc();
 
+        //Seta a view e chama a variável $dataNascFormatada.
         $this->view->dataNascFormatada = $dataNascFormatada;
+
+        $this->view->localidade = $usuario->getLocalizacao();
 
         //rendeniza a view timeline.
         $this->render('timeline');
@@ -172,6 +176,13 @@ class AppController extends Action {
         //Seta a view e chama o getTotalSeguidores da minha classe Usuario.
         $this->view->total_seguidores = $usuario->getTotalSeguidores();
 
+        //Seta a variável e chama o getDataNasc da minha classe Usuario.
+        $dataNascFormatada = $usuario->getDataNasc();
+
+        //Seta a view e chama a variável $dataNascFormatada.
+        $this->view->dataNascFormatada = $dataNascFormatada;
+
+        $this->view->localidade = $usuario->getLocalizacao();
 
         $this->render('minhaConta');
     }
