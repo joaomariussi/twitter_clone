@@ -55,37 +55,62 @@ class IndexController extends  Action
         $usuario->__set('data_nasc', $data_nasc);
         $usuario->__set('localizacao', $localizacao);
 
+        //Verifica se todos os campos estão preenchidos.
+        if (empty($nome) || empty($email) || empty($senha) || empty($nome_usuario) || empty($data_nasc) || empty($localizacao)) {
+
+            $this->view->erroCamposVazios = true;
+        } else {
+            $senha = md5($senha);
+        }
+
         /**
          * @var $usuario Usuario
          */
 
-        // Valida o cadastro do usuário, verifica se já existe um usuário com o mesmo email e também verifica se já existe o nome_usuario igual do que está sendo inserido.
-        if ($usuario->validarCadastro() && count($usuario->getUsuarioPorEmail()) == 0 && count($usuario->getNomeUsuario()) == 0) {
+        if ($usuario->validarCadastro()) {
+            // Verifica se o cadastro do usuário é válido
 
-            // Salva o usuário no banco de dados
-            $usuario->salvar();
+            if (count($usuario->getUsuarioPorEmail()) > 0) {
+                // Verifica se já existe um usuário com o mesmo endereço de e-mail
 
-            // Renderiza a página de cadastro bem-sucedido
-            $this->render('cadastro');
+                $this->view->erroEmailExistente = true;
+                // Define a variável de visualização 'erroEmailExistente' como verdadeira
+                // Indicando que há um erro de e-mail existente
+            }
 
-        } else {
+            if (count($usuario->getNomeUsuario()) > 0) {
+                // Verifica se já existe um usuário com o mesmo nome de usuário
 
-            // Caso haja erros de validação ou um usuário com o mesmo email já exista,
-            // define os valores no objeto de visualização para exibição no formulário
-            $this->view->usuario = array(
-                'nome' => $nome,
-                'email' => $email,
-                'senha' => $senha,
-                'nome_usuario' => $nome_usuario,
-                'data_nasc' => $data_nasc,
-                'localizacao' => $localizacao,
+                $this->view->erroNomeUsuarioExistente = true;
+                // Define a variável de visualização 'erroNomeUsuarioExistente' como verdadeira
+                // Indicando que há um erro de nome de usuário existente
+            }
 
-            );
+            if (!$this->view->erroEmailExistente && !$this->view->erroNomeUsuarioExistente) {
+                // Verifica se não há erros de e-mail ou nome de usuário existentes
 
-            $this->view->erroCadastro = true;
+                // Salva o usuário no banco de dados
+                $usuario->salvar();
 
-            // Renderiza a página de inscrição novamente, exibindo mensagens de erro
-            $this->render('inscreverse');
+                // Renderiza a página de cadastro bem-sucedido
+                $this->render('cadastro');
+            }
         }
+
+
+        // Define os valores no objeto de visualização para exibição no formulário
+        $this->view->usuario = array(
+            'nome' => $nome,
+            'email' => $email,
+            'senha' => $senha,
+            'nome_usuario' => $nome_usuario,
+            'data_nasc' => $data_nasc,
+            'localizacao' => $localizacao,
+        );
+
+        $this->view->erroCadastro = true;
+
+        // Renderiza a página de inscrição novamente, exibindo mensagens de erro
+        $this->render('inscreverse');
     }
 }
