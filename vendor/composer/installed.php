@@ -3,7 +3,7 @@
         'name' => 'miniframework/vendor',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '67facd9a7b17f8858b8db76c30b30f18a80ba89b',
+        'reference' => 'd56c5500943f92cd6a32b8fe98e6e7cd06d939c0',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'miniframework/vendor' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '67facd9a7b17f8858b8db76c30b30f18a80ba89b',
+            'reference' => 'd56c5500943f92cd6a32b8fe98e6e7cd06d939c0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

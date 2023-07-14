@@ -16,7 +16,7 @@
 <div class="container mt-5">
     <div class="row pt-2">
 
-        <div class="col-md-3">
+        <div class="col-md-11">
 
             <div class="perfil">
                 <div class="perfilTopo">
@@ -25,15 +25,20 @@
 
                 <div class="perfilPainel">
 
+                    <div class="col mt-2 d-flex justify-content-end">
+                        <button type="submit" class="btn btn">Editar Perfil</button>
+                    </div>
+                    <div class="col mb-8">
+
                     <div class="row mt-2 mb-2">
                         <div class="col mb-2">
 							<span class="perfilPainelNome">
-                                <?= $this->view->info_usuario['nome']; ?>
+                                <?= $this->view->info_usuario['nome'] ?>
                             </span>
                             <br>
 
                             <span class="perfilPainelNomeUsuario">
-                                @joaoteste
+                                <?= $this->view->nome_usuario['nome_usuario'] ?>
                             </span>
 
                             <span class="perfilPainelDataNasc">
@@ -73,30 +78,47 @@
                                 ?>
                             </span>
                         </div>
-
                     </div>
-
                 </div>
             </div>
 
-        </div>
-
-        <div class="col-md-6">
-            <div class="row mb-2">
-                <div class="col tweetBox">
-                    <form method="post" action="tweet">
+                <div class="col-md-6">
+                    <div class="row mb-2">
+                        <div class="col tweetBox">
+                            <form method="post" action="minha_conta">
                         <textarea class="form-control" name="tweet" id="exampleFormControlTextarea1" placeholder="O que está acontecendo?"
                                   rows="3"></textarea>
 
-                        <div class="col mt-2 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Tweetar</button>
+                                <div class="col mt-2 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Tweetar</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
+
+                    <?php foreach ($this->view->tweets as$tweet) { ?>
+                        <div class="row tweet">
+                            <div class="col">
+                                <p><strong><?= $tweet['nome'] ?></strong> <small><span
+                                                class="text text-muted"><?= $tweet['data'] ?></span></small></p>
+                                <p><?= $tweet['tweet'] ?></p>
+                                <br/>
+                                <?php if ($tweet['id_usuario'] == $_SESSION['id']) { ?>
+                                    <form method="post" action="/minha_conta">
+                                        <input type="hidden" name="id_tweet" value="<?= $tweet['id'] ?> ">
+                                        <div class="col d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-danger"><small>Remover</small></button>
+                                        </div>
+                                    </form>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-12">
             <div class="quemSeguir">
                 <span class="quemSeguirTitulo">Quem seguir</span><br/>
                 <hr/>
