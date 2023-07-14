@@ -38,7 +38,7 @@ class Tweet extends Model {
         return $this;
     }
 
-    public function remover(): static
+    public function remover(): Tweet
     {
         $query = "DELETE FROM tweets WHERE id = :id";
         $stmt = $this->db->prepare($query);
