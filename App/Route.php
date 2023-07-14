@@ -3,6 +3,7 @@
 namespace App;
 
 use MF\Init\Bootstrap;
+use MF\Model\Container;
 
 class Route extends Bootstrap {
 
